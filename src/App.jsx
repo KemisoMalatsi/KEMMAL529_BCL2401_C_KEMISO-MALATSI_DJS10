@@ -7,11 +7,16 @@ export const App = () => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/post")
-      .then((response) => response.json())
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => {
+        if(!response.ok) {
+          throw new Error("Data fetching failed!")
+        }
+        return response.json();
+      })
       .then((posts) => setData(posts))
       .catch((error) => {
-        setError(error);
+        setError(error).message;
       });
   }, []);
 
@@ -19,7 +24,7 @@ export const App = () => {
   return (
     <>
       {!error && data? data.map((post) => (
-            <div>
+            <div key={post.id}>
               <h2>{post.title}</h2>
               <p>{post.body}</p>
             </div>
