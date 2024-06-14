@@ -16,7 +16,7 @@ export const App = () => {
       })
       .then((posts) => setData(posts))
       .catch((error) => {
-        setError(error).message;
+        setError(error.message);
       });
   }, []);
 
